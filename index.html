@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DungeonVerse | MMORPG na Blockchainu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #9d4edd;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 100px 20px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .gradient {
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+        
+        /* Dice */
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: #1a1a25;
+            border: 2px solid #9d4edd;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .dice.rolling {
+            animation: shake 0.1s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+        
+        /* Button */
+        .roll-btn {
+            width: 90%;
+            max-width: 300px;
+            padding: 18px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 20px rgba(157, 78, 221, 0.4);
+        }
+        
+        .roll-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .roll-btn:disabled {
+            opacity: 0.6;
+        }
+        
+        /* Result */
+        .result {
+            min-height: 60px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+        
+        .result .total {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .result .crit {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        .result .fumble {
+            color: #e74c3c;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 20px;
+            margin: 30px 0;
+        }
+        
+        .stat {
+            background: #1a1a25;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #a0a0b0;
+            text-transform: uppercase;
+        }
+        
+        /* Chains */
+        .chains {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .chain {
+            padding: 8px 16px;
+            background: #1a1a25;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+        }
+        
+        /* Links */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 0 20px;
+            margin: 30px 0;
+        }
+        
+        .link-btn {
+            display: block;
+            padding: 16px;
+            background: #1a1a25;
+            color: #9d4edd;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            font-weight: 600;
+        }
+        
+        .link-btn:active {
+            background: rgba(157, 78, 221, 0.1);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+        
+        /* Menu overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.98);
+            z-index: 2000;
+            padding: 80px 40px;
+        }
+        
+        .menu-overlay.active {
+            display: block;
+        }
+        
+        .menu-overlay a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 20px 0;
+            border-bottom: 1px solid #252535;
+        }
+        
+        .menu-overlay .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">⚔️ <span>Dungeon</span>Verse</div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </nav>
+    
+    <!-- Menu -->
+    <div class="menu-overlay" id="menu">
+        <button class="close" onclick="toggleMenu()">✕</button>
+        <a href="index.html">🏠 Domů</a>
+        <a href="game.html">🎮 O hře</a>
+        <a href="blockchain.html">⛓️ Blockchain</a>
+        <a href="tokenomics.html">💰 Tokenomics</a>
+        <a href="roadmap.html">🗺️ Roadmap</a>
+    </div>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Tahové <span class="gradient">MMORPG</span> na Blockchainu</h1>
+        <p class="subtitle">Hoď 2×D20 kostkou, bojuj v dungeonech, sbírej NFT itemy</p>
+        
+        <div class="dice-container">
+            <div class="dice" id="dice1">?</div>
+            <div class="dice" id="dice2">?</div>
+        </div>
+        
+        <button class="roll-btn" id="rollBtn" onclick="rollDice()">
+            🎲 Hodit kostky!
+        </button>
+        
+        <div class="result" id="result"></div>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">12.8K</span>
+                <span class="stat-label">Hráčů</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">45.2K</span>
+                <span class="stat-label">Dungeony</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">128K</span>
+                <span class="stat-label">NFT Itemů</span>
+            </div>
+        </div>
+        
+        <div class="chains">
+            <span class="chain">🟣 Polygon</span>
+            <span class="chain">🔵 Arbitrum</span>
+            <span class="chain">🔷 Base</span>
+        </div>
+        
+        <div class="links">
+            <a href="game.html" class="link-btn">🎮 Více o hře →</a>
+            <a href="blockchain.html" class="link-btn">⛓️ Blockchain →</a>
+        </div>
+    </section>
+    
+    <div class="footer">
+        © 2026 DungeonVerse. Všechna práva vyhrazena.
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('active');
+        }
+        
+        function rollDice() {
+            const dice1 = document.getElementById('dice1');
+            const dice2 = document.getElementById('dice2');
+            const result = document.getElementById('result');
+            const btn = document.getElementById('rollBtn');
+            
+            btn.disabled = true;
+            btn.textContent = '🎲 Házím...';
+            
+            let rolls = 0;
+            const interval = setInterval(() => {
+                dice1.textContent = Math.floor(Math.random() * 20) + 1;
+                dice2.textContent = Math.floor(Math.random() * 20) + 1;
+                dice1.classList.add('rolling');
+                dice2.classList.add('rolling');
+                rolls++;
+                
+                if (rolls > 10) {
+                    clearInterval(interval);
+                    dice1.classList.remove('rolling');
+                    dice2.classList.remove('rolling');
+                    
+                    const final1 = Math.floor(Math.random() * 20) + 1;
+                    const final2 = Math.floor(Math.random() * 20) + 1;
+                    const total = final1 + final2;
+                    
+                    dice1.textContent = final1;
+                    dice2.textContent = final2;
+                    
+                    let html = `<div class="total">${final1} + ${final2} = ${total}</div>`;
+                    
+                    if (final1 === 20 && final2 === 20) {
+                        html += `<div class="crit">🔥 KRITICKÝ ZÁSAH! 🔥</div>`;
+                        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    } else if (final1 === 1 && final2 === 1) {
+                        html += `<div class="fumble">💀 FUMBLE! 💀</div>`;
+                        if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100]);
+                    } else if (total >= 35) {
+                        html += `<div class="crit">✨ Výborný hod!</div>`;
+                    } else if (total <= 5) {
+                        html += `<div class="fumble">😬 Smůla...</div>`;
+                    }
+                    
+                    result.innerHTML = html;
+                    
+                    btn.disabled = false;
+                    btn.textContent = '🎲 Hodit znovu!';
+                }
+            }, 80);
+        }
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
