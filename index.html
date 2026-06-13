@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DungeonVerse | MMORPG na Blockchainu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚔️</span>
+                <span class="logo-text">DungeonVerse</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="game.html">Hra</a></li>
+                <li><a href="blockchain.html">Blockchain</a></li>
+                <li><a href="tokenomics.html">Tokenomics</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="whitepaper.html">Whitepaper</a></li>
+            </ul>
+            <button class="btn-play" onclick="connectWallet()">
+                <span class="btn-icon">🎮</span>
+                Hrát Nyní
+            </button>
+            <button class="mobile-menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="dungeon-grid"></div>
+            <div class="particles"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">🎲 Tahový D20 Systém</div>
+            <h1 class="hero-title">
+                <span class="gradient-text">DungeonVerse</span>
+                <br>
+                První MMORPG na Blockchainu
+            </h1>
+            <p class="hero-subtitle">
+                Prozkoumej procedurální dungeony, bojuj tahovým D20 systémem, 
+                sbírej NFT itemy a obchoduj na multi-chain tržišti.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="players-count">12,847</span>
+                    <span class="stat-label">Hráčů</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="dungeons-count">45,231</span>
+                    <span class="stat-label">Dungeony</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="items-count">128,492</span>
+                    <span class="stat-label">NFT Itemů</span>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <button class="btn-primary" onclick="connectWallet()">
+                    <span>⚔️</span> Připojit Peněženku
+                </button>
+                <button class="btn-secondary" onclick="scrollToDemo()">
+                    <span>🎬</span> Sledovat Trailer
+                </button>
+            </div>
+            <div class="hero-chains">
+                <span class="chain-label">Podporované sítě:</span>
+                <div class="chain-icons">
+                    <div class="chain-icon" title="Polygon">
+                        <svg viewBox="0 0 32 32"><path fill="#8247E5" d="M16 2L3 9v14l13 7 13-7V9L16 2z"/></svg>
+                        <span>Polygon</span>
+                    </div>
+                    <div class="chain-icon" title="Arbitrum">
+                        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#28A0F0"/></svg>
+                        <span>Arbitrum</span>
+                    </div>
+                    <div class="chain-icon" title="Base">
+                        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0052FF"/></svg>
+                        <span>Base</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="d20-container">
+                <div class="d20" id="d20-1">
+                    <div class="face face-1">1</div>
+                    <div class="face face-2">2</div>
+                    <div class="face face-3">3</div>
+                    <div class="face face-4">4</div>
+                    <div class="face face-5">5</div>
+                    <div class="face face-6">6</div>
+                    <div class="face face-7">7</div>
+                    <div class="face face-8">8</div>
+                    <div class="face face-9">9</div>
+                    <div class="face face-10">10</div>
+                    <div class="face face-11">11</div>
+                    <div class="face face-12">12</div>
+                    <div class="face face-13">13</div>
+                    <div class="face face-14">14</div>
+                    <div class="face face-15">15</div>
+                    <div class="face face-16">16</div>
+                    <div class="face face-17">17</div>
+                    <div class="face face-18">18</div>
+                    <div class="face face-19">19</div>
+                    <div class="face face-20">20</div>
+                </div>
+                <div class="d20" id="d20-2">
+                    <div class="face face-1">1</div>
+                    <div class="face face-2">2</div>
+                    <div class="face face-3">3</div>
+                    <div class="face face-4">4</div>
+                    <div class="face face-5">5</div>
+                    <div class="face face-6">6</div>
+                    <div class="face face-7">7</div>
+                    <div class="face face-8">8</div>
+                    <div class="face face-9">9</div>
+                    <div class="face face-10">10</div>
+                    <div class="face face-11">11</div>
+                    <div class="face face-12">12</div>
+                    <div class="face face-13">13</div>
+                    <div class="face face-14">14</div>
+                    <div class="face face-15">15</div>
+                    <div class="face face-16">16</div>
+                    <div class="face face-17">17</div>
+                    <div class="face face-18">18</div>
+                    <div class="face face-19">19</div>
+                    <div class="face face-20">20</div>
+                </div>
+            </div>
+            <div class="roll-result" id="roll-result">
+                <span class="roll-label">Součet:</span>
+                <span class="roll-total" id="roll-total">?</span>
+            </div>
+            <button class="btn-roll" onclick="rollDice()">🎲 Hodit Kostky!</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Proč <span class="gradient-text">DungeonVerse?</span></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎲</div>
+                <h3>Tahový D20 Systém</h3>
+                <p>Každý tah záleží. Hoď dvěma 20-stěnnými kostkami, počítej modifikátory a zažij pravé RPG.</p>
+                <div class="feature-detail">
+                    <span class="tag">Kritický zásah: 2×20</span>
+                    <span class="tag">Fumble: 2×1</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏰</div>
+                <h3>Procedurální Dungeony</h3>
+                <p>Každý dungeon je unikátní. BSP generace, náhodné místnosti, pasti a poklady.</p>
+                <div class="feature-detail">
+                    <span class="tag">4 Témata</span>
+                    <span class="tag">Multi-floor</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⛓️</div>
+                <h3>True Ownership</h3>
+                <p>Tvoje itemy = tvoje NFT. Obchoduj na tržišti, vylepšuj, nebo prodej.</p>
+                <div class="feature-detail">
+                    <span class="tag">ERC-721</span>
+                    <span class="tag">Cross-chain</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚔️</div>
+                <h3>MMORPG Combat</h3>
+                <p>4-hráčové party, PvE i PvP, boss fighty s unikátními mechanikami.</p>
+                <div class="feature-detail">
+                    <span class="tag">PvE Dungeony</span>
+                    <span class="tag">PvP Arena</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Multi-Chain</h3>
+                <p>Vyber si síť: Polygon pro tržiště, Arbitrum L3 pro hru, Base pro onboarding.</p>
+                <div class="feature-detail">
+                    <span class="tag">Polygon</span>
+                    <span class="tag">Arbitrum</span>
+                    <span class="tag">Base</span>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Play-to-Earn</h3>
+                <p>Získávej $DNG tokeny za dungeon clears, staking a obchodování.</p>
+                <div class="feature-detail">
+                    <span class="tag">$DNG Token</span>
+                    <span class="tag">Staking</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2 class="section-title">Jak Začít?</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Připoj Peněženku</h3>
+                    <p>Coinbase Smart Wallet (bez seed phrase) nebo MetaMask. Vyber si síť Base pro nejjednodušší start.</p>
+                </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Získej Starter Pack</h3>
+                    <p>Zdarma dostaneš základní vybavení a 100 $DNG. Auto-bridge na Arbitrum Orbit L3.</p>
+                </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Hraj!</h3>
+                    <p>Vstup do dungeonu, bojuj tahovým systémem, sbírej loot, vylepšuj itemy.</p>
+                </div>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Obchoduj & Vydělávej</h3>
+                    <p>Prodej itemy na Polygon tržišti, stake $DNG, nebo vyber na Base.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Připraven na Dobrodružství?</h2>
+            <p>Připoj se k tisícům hráčů v prvním tahovém blockchain MMORPG.</p>
+            <button class="btn-primary btn-large" onclick="connectWallet()">
+                <span>⚔️</span> Vstoupit do DungeonVerse
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="logo-icon">⚔️</span>
+                <span class="logo-text">DungeonVerse</span>
+                <p>První tahové MMORPG na blockchainu. Hraj, sbírej, obchoduj.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Hra</h4>
+                <a href="game.html">Mechaniky</a>
+                <a href="game.html#classes">Třídy</a>
+                <a href="game.html#dungeons">Dungeony</a>
+            </div>
+            <div class="footer-links">
+                <h4>Blockchain</h4>
+                <a href="blockchain.html">Smart Contracty</a>
+                <a href="tokenomics.html">Tokenomics</a>
+                <a href="whitepaper.html">Whitepaper</a>
+            </div>
+            <div class="footer-links">
+                <h4>Komunita</h4>
+                <a href="#">Discord</a>
+                <a href="#">Twitter/X</a>
+                <a href="#">GitHub</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DungeonVerse. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+
