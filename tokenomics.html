@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tokenomics | DungeonVerse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #9d4edd;
+        }
+        
+        .back-btn {
+            color: #9d4edd;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        
+        .content {
+            padding: 80px 20px 40px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        
+        .gradient {
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+        
+        .token-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(76, 201, 240, 0.2));
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 50px;
+            padding: 12px 24px;
+            margin-bottom: 30px;
+        }
+        
+        .token-badge .symbol {
+            font-size: 1.5rem;
+        }
+        
+        .token-badge .info {
+            text-align: left;
+        }
+        
+        .token-badge .name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .token-badge .supply {
+            font-size: 0.85rem;
+            color: #a0a0b0;
+        }
+        
+        .section {
+            background: #1a1a25;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+        }
+        
+        .section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        
+        .section p strong {
+            color: #fff;
+        }
+        
+        .distribution {
+            margin: 20px 0;
+        }
+        
+        .dist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #252535;
+        }
+        
+        .dist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dist-bar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .dist-info {
+            flex: 1;
+        }
+        
+        .dist-info h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .dist-info p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .dist-amount {
+            text-align: right;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .utility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .utility-card {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .utility-card .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .utility-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        
+        .utility-card p {
+            font-size: 0.8rem;
+            margin: 0;
+        }
+        
+        .sink-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .sink-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #12121a;
+            padding: 14px;
+            border-radius: 12px;
+        }
+        
+        .sink-item .arrow {
+            color: #e74c3c;
+            font-size: 1.2rem;
+        }
+        
+        .sink-item .desc {
+            flex: 1;
+        }
+        
+        .sink-item .desc h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        
+        .sink-item .desc p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .staking-tier {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+        
+        .staking-tier.tier-1 {
+            border-color: #a0a0b0;
+        }
+        
+        .staking-tier.tier-2 {
+            border-color: #4cc9f0;
+        }
+        
+        .staking-tier.tier-3 {
+            border-color: #9d4edd;
+        }
+        
+        .staking-tier.tier-4 {
+            border-color: #ffd700;
+        }
+        
+        .staking-tier h4 {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .staking-tier .apy {
+            color: #ffd700;
+        }
+        
+        .staking-tier p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(157, 78, 221, 0.15);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #9d4edd;
+            margin: 4px 4px 0 0;
+        }
+        
+        .economy-flow {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .economy-flow h4 {
+            color: #9d4edd;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #252535;
+        }
+        
+        .flow-row:last-child {
+            border-bottom: none;
+        }
+        
+        .flow-row .from {
+            color: #2ecc71;
+        }
+        
+        .flow-row .to {
+            color: #e74c3c;
+        }
+        
+        .flow-row .amount {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-btn">← Zpět</a>
+        <div class="logo">⚔️ <span>Dungeon</span>Verse</div>
+        <div style="width: 40px;"></div>
+    </nav>
+    
+    <div class="content">
+        <h1>$DNG <span class="gradient">Tokenomics</span></h1>
+        <p class="subtitle">Ekonomika, která dává smysl pro hráče i investory</p>
+        
+        <div class="token-badge">
+            <span class="symbol">💰</span>
+            <div class="info">
+                <div class="name">$DNG Token</div>
+                <div class="supply">Total Supply: 1,000,000,000</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Rozdělení Tokenů</h2>
+            <p>Celková nabídka je fixní. Žádné další mintování. Deflační mechaniky zajišťují růst hodnoty.</p>
+            
+            <div class="distribution">
+                <div class="dist-item">
+                    <div class="dist-bar" style="background: linear-gradient(135deg, #9d4edd, #4cc9f0);">40%</div>
+                    <div class="dist-info">
+                        <h4>Gaming Rewards</h4>
+                        <p>Dungeon clears, PvP výhry, daily questy, achievementy</p>
+                    </div>
+                    <div class="dist-amount">400M</div>
+                </div>
+                
+                <div class="dist-item">
+                    <div class="dist-bar" style="background: linear-gradient(135deg, #4cc9f0, #2ecc71);">25%</div>
+                    <div class="dist-info">
+                        <h4>Ecosystem & Liquidity</h4>
+                        <p>LP rewards, bridge incentives, partnerství, grants</p>
+                    </div>
+                    <div class="dist-amount">250M</div>
+                </div>
+                
+                <div class="dist-item">
+                    <div class="dist-bar" style="background: linear-gradient(135deg, #ffd700, #ffb700);">15%</div>
+                    <div class="dist-info">
+                        <h4>Team & Advisors</h4>
+                        <p>4-roční vesting s 1-roční cliff. Dlouhodobé zámky.</p>
+                    </div>
+                    <div class="dist-amount">150M</div>
+                </div>
+                
+                <div class="dist-item">
+                    <div class="dist-bar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">10%</div>
+                    <div class="dist-info">
+                        <h4>Treasury</h4>
+                        <p>Marketing, emergency fund, budoucí vývoj, bug bounty</p>
+                    </div>
+                    <div class="dist-amount">100M</div>
+                </div>
+                
+                <div class="dist-item">
+                    <div class="dist-bar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">10%</div>
+                    <div class="dist-info">
+                        <h4>Public Sale (IDO)</h4>
+                        <p>Fair launch na všech 3 chainech. Žádné VC slevy.</p>
+                    </div>
+                    <div class="dist-amount">100M</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎮 Utility Tokenů</h2>
+            <p>$DNG není jen spekulace. Má reálné využití ve hře i mimo ni.</p>
+            
+            <div class="utility-grid">
+                <div class="utility-card">
+                    <div class="icon">⚔️</div>
+                    <h4>Upgrade Itemů</h4>
+                    <p>Plať za vylepšení vybavení. Čím vyšší level, tím víc $DNG.</p>
+                </div>
+                <div class="utility-card">
+                    <div class="icon">🎫</div>
+                    <h4>Entry Fees</h4>
+                    <p>Vstup do speciálních dungeonů. Vyšší difficulty = lepší loot.</p>
+                </div>
+                <div class="utility-card">
+                    <div class="icon">🏪</div>
+                    <h4>Tržiště</h4>
+                    <p>Nakupuj a prodávej NFT itemy. 2.5% fee jde do treasury.</p>
+                </div>
+                <div class="utility-card">
+                    <div class="icon">⛽</div>
+                    <h4>Gas Token</h4>
+                    <p>Na Arbitrum L3 platíš gas v $DNG. Skoro zadarmo.</p>
+                </div>
+                <div class="utility-card">
+                    <div class="icon">🗳️</div>
+                    <h4>Governance</h4>
+                    <p>Hlasuj o směru hry. Stake $DNG → získej veDNG.</p>
+                </div>
+                <div class="utility-card">
+                    <div class="icon">🎁</div>
+                    <h4>Rewards</h4>
+                    <p>Dungeon clears, PvP, questy. Play-to-earn, které dává smysl.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔥 Deflační Mechaniky (Token Sink)</h2>
+            <p>Tokeny opouštějí oběh. Nabídka klesá, hodnota roste.</p>
+            
+            <div class="sink-flow">
+                <div class="sink-item">
+                    <span class="arrow">↓</span>
+                    <div class="desc">
+                        <h4>Upgrade Fees</h4>
+                        <p>50% spáleno, 50% do treasury. Čím vyšší level, tím víc hoří.</p>
+                    </div>
+                </div>
+                <div class="sink-item">
+                    <span class="arrow">↓</span>
+                    <div class="desc">
+                        <h4>Entry Fees</h4>
+                        <p>100% spáleno za vstup do premium dungeonů. Scarcity zvyšuje hodnotu.</p>
+                    </div>
+                </div>
+                <div class="sink-item">
+                    <span class="arrow">↓</span>
+                    <div class="desc">
+                        <h4>Repair & Fast Travel</h4>
+                        <p>Spáleno za rychlý přesun nebo opravu zničeného itemu.</p>
+                    </div>
+                </div>
+                <div class="sink-item">
+                    <span class="arrow">↓</span>
+                    <div class="desc">
+                        <h4>Marketplace Fee</h4>
+                        <p>2.5% z každého prodeje. 50% burn, 50% treasury pro development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💎 Staking & Yield</h2>
+            <p>Zamkni $DNG, získej veDNG, hlasuj a vydělávej.</p>
+            
+            <div class="staking-tier tier-1">
+                <h4>
+                    <span>⚪ Bronze Lock</span>
+                    <span class="apy">20% APY</span>
+                </h4>
+                <p>7 dní lock • 1x multiplier • Základní hlasovací práva</p>
+            </div>
+            
+            <div class="staking-tier tier-2">
+                <h4>
+                    <span>🔵 Silver Lock</span>
+                    <span class="apy">30% APY</span>
+                </h4>
+                <p>30 dní lock • 1.5x multiplier • Bonus loot chance +5%</p>
+            </div>
+            
+            <div class="staking-tier tier-3">
+                <h4>
+                    <span>🟣 Gold Lock</span>
+                    <span class="apy">50% APY</span>
+                </h4>
+                <p>90 dní lock • 2.5x multiplier • Early access nové content</p>
+            </div>
+            
+            <div class="staking-tier tier-4">
+                <h4>
+                    <span>🟡 Diamond Lock</span>
+                    <span class="apy">80% APY</span>
+                </h4>
+                <p>365 dní lock • 4x multiplier • VIP status, exclusive NFT airdropy</p>
+            </div>
+            
+            <p style="margin-top: 15px;"><strong>veDNG = Vote-Escrowed DNG</strong></p>
+            <p>Čím déle stakeuješ, tím víc veDNG dostaneš. veDNG dává hlasovací práva v DAO governance. Rozhoduj o nových dungeonech, balance změnách, treasury alokaci.</p>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Ekonomický Flow</h2>
+            <p>Jak tokeny cirkulují v ekosystému. Udržitelné, ne pyramidové.</p>
+            
+            <div class="economy-flow">
+                <h4>Emise (Inflace)</h4>
+                <div class="flow-row">
+                    <span class="from">Dungeon Clear</span>
+                    <span class="amount">+50 DNG</span>
+                </div>
+                <div class="flow-row">
+                    <span class="from">PvP Victory</span>
+                    <span class="amount">+25 DNG</span>
+                </div>
+                <div class="flow-row">
+                    <span class="from">Daily Quest</span>
+                    <span class="amount">+10 DNG</span>
+                </div>
+                <div class="flow-row">
+                    <span class="from">Staking Reward</span>
+                    <span class="amount">Variable</span>
+                </div>
+            </div>
+            
+            <div class="economy-flow">
+                <h4>Sink (Deflace)</h4>
+                <div class="flow-row">
+                    <span class="to">Item Upgrade</span>
+                    <span class="amount">-10 až 5000 DNG</span>
+                </div>
+                <div class="flow-row">
+                    <span class="to">Premium Entry</span>
+                    <span class="amount">-100 DNG</span>
+                </div>
+                <div class="flow-row">
+                    <span class="to">Marketplace Fee</span>
+                    <span class="amount">-2.5%</span>
+                </div>
+                <div class="flow-row">
+                    <span class="to">Fast Travel</span>
+                    <span class="amount">-5 DNG</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px;"><strong>Cíl:</strong> Long-term deflace. Early game mírná inflace pro onboarding, late game silná deflace pro hodnotu.</p>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Proč Tato Ekonomika?</h2>
+            <p><strong>Pro hráče:</strong> Hraním získáváš reálnou hodnotu. Tvůj čas = tvoje tokeny. Žádné pay-to-win, skill matters.</p>
+            <p><strong>Pro investory:</strong> Deflační mechaniky zajišťují růst hodnoty. Treasury financuje kontinuální vývoj.</p>
+            <p><strong>Pro komunitu:</strong> Governance dává hráčům moc nad směrem hry. Decentralizované rozhodování.</p>
+            <p><strong>Pro udržitelnost:</strong> Sink > Emise v late game. Ekonomika se sama balancuje.</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        © 2026 DungeonVerse. Všechna práva vyhrazena.
+    </div>
+</body>
+</html>
