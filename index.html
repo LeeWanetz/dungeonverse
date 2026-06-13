@@ -2,291 +2,408 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DungeonVerse | MMORPG na Blockchainu</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #9d4edd;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        
+        /* Hero */
+        .hero {
+            padding: 100px 20px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .gradient {
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+        
+        /* Dice */
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: #1a1a25;
+            border: 2px solid #9d4edd;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .dice.rolling {
+            animation: shake 0.1s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+        
+        /* Button */
+        .roll-btn {
+            width: 90%;
+            max-width: 300px;
+            padding: 18px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 20px rgba(157, 78, 221, 0.4);
+        }
+        
+        .roll-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .roll-btn:disabled {
+            opacity: 0.6;
+        }
+        
+        /* Result */
+        .result {
+            min-height: 60px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+        
+        .result .total {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .result .crit {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        .result .fumble {
+            color: #e74c3c;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 20px;
+            margin: 30px 0;
+        }
+        
+        .stat {
+            background: #1a1a25;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #a0a0b0;
+            text-transform: uppercase;
+        }
+        
+        /* Chains */
+        .chains {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .chain {
+            padding: 8px 16px;
+            background: #1a1a25;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+        }
+        
+        /* Links */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 0 20px;
+            margin: 30px 0;
+        }
+        
+        .link-btn {
+            display: block;
+            padding: 16px;
+            background: #1a1a25;
+            color: #9d4edd;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            font-weight: 600;
+        }
+        
+        .link-btn:active {
+            background: rgba(157, 78, 221, 0.1);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+        
+        /* Menu overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.98);
+            z-index: 2000;
+            padding: 80px 40px;
+        }
+        
+        .menu-overlay.active {
+            display: block;
+        }
+        
+        .menu-overlay a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 20px 0;
+            border-bottom: 1px solid #252535;
+        }
+        
+        .menu-overlay .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">⚔️</span>
-                <span class="logo-text">DungeonVerse</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="game.html">Hra</a></li>
-                <li><a href="blockchain.html">Blockchain</a></li>
-                <li><a href="tokenomics.html">Tokenomics</a></li>
-                <li><a href="roadmap.html">Roadmap</a></li>
-                <li><a href="whitepaper.html">Whitepaper</a></li>
-            </ul>
-            <button class="btn-play" onclick="connectWallet()">
-                <span class="btn-icon">🎮</span>
-                Hrát Nyní
-            </button>
-            <button class="mobile-menu-toggle">☰</button>
-        </div>
+        <div class="logo">⚔️ <span>Dungeon</span>Verse</div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
     </nav>
-
-    <!-- Hero Section -->
+    
+    <!-- Menu -->
+    <div class="menu-overlay" id="menu">
+        <button class="close" onclick="toggleMenu()">✕</button>
+        <a href="index.html">🏠 Domů</a>
+        <a href="game.html">🎮 O hře</a>
+        <a href="blockchain.html">⛓️ Blockchain</a>
+        <a href="tokenomics.html">💰 Tokenomics</a>
+        <a href="roadmap.html">🗺️ Roadmap</a>
+    </div>
+    
+    <!-- Hero -->
     <section class="hero">
-        <div class="hero-bg">
-            <div class="dungeon-grid"></div>
-            <div class="particles"></div>
+        <h1>Tahové <span class="gradient">MMORPG</span> na Blockchainu</h1>
+        <p class="subtitle">Hoď 2×D20 kostkou, bojuj v dungeonech, sbírej NFT itemy</p>
+        
+        <div class="dice-container">
+            <div class="dice" id="dice1">?</div>
+            <div class="dice" id="dice2">?</div>
         </div>
-        <div class="hero-content">
-            <div class="hero-badge">🎲 Tahový D20 Systém</div>
-            <h1 class="hero-title">
-                <span class="gradient-text">DungeonVerse</span>
-                <br>
-                První MMORPG na Blockchainu
-            </h1>
-            <p class="hero-subtitle">
-                Prozkoumej procedurální dungeony, bojuj tahovým D20 systémem, 
-                sbírej NFT itemy a obchoduj na multi-chain tržišti.
-            </p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number" id="players-count">12,847</span>
-                    <span class="stat-label">Hráčů</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" id="dungeons-count">45,231</span>
-                    <span class="stat-label">Dungeony</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" id="items-count">128,492</span>
-                    <span class="stat-label">NFT Itemů</span>
-                </div>
+        
+        <button class="roll-btn" id="rollBtn" onclick="rollDice()">
+            🎲 Hodit kostky!
+        </button>
+        
+        <div class="result" id="result"></div>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">12.8K</span>
+                <span class="stat-label">Hráčů</span>
             </div>
-            <div class="hero-cta">
-                <button class="btn-primary" onclick="connectWallet()">
-                    <span>⚔️</span> Připojit Peněženku
-                </button>
-                <button class="btn-secondary" onclick="scrollToDemo()">
-                    <span>🎬</span> Sledovat Trailer
-                </button>
+            <div class="stat">
+                <span class="stat-number">45.2K</span>
+                <span class="stat-label">Dungeony</span>
             </div>
-            <div class="hero-chains">
-                <span class="chain-label">Podporované sítě:</span>
-                <div class="chain-icons">
-                    <div class="chain-icon" title="Polygon">
-                        <svg viewBox="0 0 32 32"><path fill="#8247E5" d="M16 2L3 9v14l13 7 13-7V9L16 2z"/></svg>
-                        <span>Polygon</span>
-                    </div>
-                    <div class="chain-icon" title="Arbitrum">
-                        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#28A0F0"/></svg>
-                        <span>Arbitrum</span>
-                    </div>
-                    <div class="chain-icon" title="Base">
-                        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0052FF"/></svg>
-                        <span>Base</span>
-                    </div>
-                </div>
+            <div class="stat">
+                <span class="stat-number">128K</span>
+                <span class="stat-label">NFT Itemů</span>
             </div>
         </div>
-        <div class="hero-visual">
-            <div class="d20-container">
-                <div class="d20" id="d20-1">
-                    <div class="face face-1">1</div>
-                    <div class="face face-2">2</div>
-                    <div class="face face-3">3</div>
-                    <div class="face face-4">4</div>
-                    <div class="face face-5">5</div>
-                    <div class="face face-6">6</div>
-                    <div class="face face-7">7</div>
-                    <div class="face face-8">8</div>
-                    <div class="face face-9">9</div>
-                    <div class="face face-10">10</div>
-                    <div class="face face-11">11</div>
-                    <div class="face face-12">12</div>
-                    <div class="face face-13">13</div>
-                    <div class="face face-14">14</div>
-                    <div class="face face-15">15</div>
-                    <div class="face face-16">16</div>
-                    <div class="face face-17">17</div>
-                    <div class="face face-18">18</div>
-                    <div class="face face-19">19</div>
-                    <div class="face face-20">20</div>
-                </div>
-                <div class="d20" id="d20-2">
-                    <div class="face face-1">1</div>
-                    <div class="face face-2">2</div>
-                    <div class="face face-3">3</div>
-                    <div class="face face-4">4</div>
-                    <div class="face face-5">5</div>
-                    <div class="face face-6">6</div>
-                    <div class="face face-7">7</div>
-                    <div class="face face-8">8</div>
-                    <div class="face face-9">9</div>
-                    <div class="face face-10">10</div>
-                    <div class="face face-11">11</div>
-                    <div class="face face-12">12</div>
-                    <div class="face face-13">13</div>
-                    <div class="face face-14">14</div>
-                    <div class="face face-15">15</div>
-                    <div class="face face-16">16</div>
-                    <div class="face face-17">17</div>
-                    <div class="face face-18">18</div>
-                    <div class="face face-19">19</div>
-                    <div class="face face-20">20</div>
-                </div>
-            </div>
-            <div class="roll-result" id="roll-result">
-                <span class="roll-label">Součet:</span>
-                <span class="roll-total" id="roll-total">?</span>
-            </div>
-            <button class="btn-roll" onclick="rollDice()">🎲 Hodit Kostky!</button>
+        
+        <div class="chains">
+            <span class="chain">🟣 Polygon</span>
+            <span class="chain">🔵 Arbitrum</span>
+            <span class="chain">🔷 Base</span>
+        </div>
+        
+        <div class="links">
+            <a href="game.html" class="link-btn">🎮 Více o hře →</a>
+            <a href="blockchain.html" class="link-btn">⛓️ Blockchain →</a>
         </div>
     </section>
+    
+    <div class="footer">
+        © 2026 DungeonVerse. Všechna práva vyhrazena.
+    </div>
 
-    <!-- Features Section -->
-    <section class="features">
-        <h2 class="section-title">Proč <span class="gradient-text">DungeonVerse?</span></h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎲</div>
-                <h3>Tahový D20 Systém</h3>
-                <p>Každý tah záleží. Hoď dvěma 20-stěnnými kostkami, počítej modifikátory a zažij pravé RPG.</p>
-                <div class="feature-detail">
-                    <span class="tag">Kritický zásah: 2×20</span>
-                    <span class="tag">Fumble: 2×1</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏰</div>
-                <h3>Procedurální Dungeony</h3>
-                <p>Každý dungeon je unikátní. BSP generace, náhodné místnosti, pasti a poklady.</p>
-                <div class="feature-detail">
-                    <span class="tag">4 Témata</span>
-                    <span class="tag">Multi-floor</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⛓️</div>
-                <h3>True Ownership</h3>
-                <p>Tvoje itemy = tvoje NFT. Obchoduj na tržišti, vylepšuj, nebo prodej.</p>
-                <div class="feature-detail">
-                    <span class="tag">ERC-721</span>
-                    <span class="tag">Cross-chain</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚔️</div>
-                <h3>MMORPG Combat</h3>
-                <p>4-hráčové party, PvE i PvP, boss fighty s unikátními mechanikami.</p>
-                <div class="feature-detail">
-                    <span class="tag">PvE Dungeony</span>
-                    <span class="tag">PvP Arena</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>Multi-Chain</h3>
-                <p>Vyber si síť: Polygon pro tržiště, Arbitrum L3 pro hru, Base pro onboarding.</p>
-                <div class="feature-detail">
-                    <span class="tag">Polygon</span>
-                    <span class="tag">Arbitrum</span>
-                    <span class="tag">Base</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Play-to-Earn</h3>
-                <p>Získávej $DNG tokeny za dungeon clears, staking a obchodování.</p>
-                <div class="feature-detail">
-                    <span class="tag">$DNG Token</span>
-                    <span class="tag">Staking</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <h2 class="section-title">Jak Začít?</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Připoj Peněženku</h3>
-                    <p>Coinbase Smart Wallet (bez seed phrase) nebo MetaMask. Vyber si síť Base pro nejjednodušší start.</p>
-                </div>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Získej Starter Pack</h3>
-                    <p>Zdarma dostaneš základní vybavení a 100 $DNG. Auto-bridge na Arbitrum Orbit L3.</p>
-                </div>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Hraj!</h3>
-                    <p>Vstup do dungeonu, bojuj tahovým systémem, sbírej loot, vylepšuj itemy.</p>
-                </div>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h3>Obchoduj & Vydělávej</h3>
-                    <p>Prodej itemy na Polygon tržišti, stake $DNG, nebo vyber na Base.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="cta-content">
-            <h2>Připraven na Dobrodružství?</h2>
-            <p>Připoj se k tisícům hráčů v prvním tahovém blockchain MMORPG.</p>
-            <button class="btn-primary btn-large" onclick="connectWallet()">
-                <span>⚔️</span> Vstoupit do DungeonVerse
-            </button>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <span class="logo-icon">⚔️</span>
-                <span class="logo-text">DungeonVerse</span>
-                <p>První tahové MMORPG na blockchainu. Hraj, sbírej, obchoduj.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Hra</h4>
-                <a href="game.html">Mechaniky</a>
-                <a href="game.html#classes">Třídy</a>
-                <a href="game.html#dungeons">Dungeony</a>
-            </div>
-            <div class="footer-links">
-                <h4>Blockchain</h4>
-                <a href="blockchain.html">Smart Contracty</a>
-                <a href="tokenomics.html">Tokenomics</a>
-                <a href="whitepaper.html">Whitepaper</a>
-            </div>
-            <div class="footer-links">
-                <h4>Komunita</h4>
-                <a href="#">Discord</a>
-                <a href="#">Twitter/X</a>
-                <a href="#">GitHub</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 DungeonVerse. Všechna práva vyhrazena.</p>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('active');
+        }
+        
+        function rollDice() {
+            const dice1 = document.getElementById('dice1');
+            const dice2 = document.getElementById('dice2');
+            const result = document.getElementById('result');
+            const btn = document.getElementById('rollBtn');
+            
+            btn.disabled = true;
+            btn.textContent = '🎲 Házím...';
+            
+            let rolls = 0;
+            const interval = setInterval(() => {
+                dice1.textContent = Math.floor(Math.random() * 20) + 1;
+                dice2.textContent = Math.floor(Math.random() * 20) + 1;
+                dice1.classList.add('rolling');
+                dice2.classList.add('rolling');
+                rolls++;
+                
+                if (rolls > 10) {
+                    clearInterval(interval);
+                    dice1.classList.remove('rolling');
+                    dice2.classList.remove('rolling');
+                    
+                    const final1 = Math.floor(Math.random() * 20) + 1;
+                    const final2 = Math.floor(Math.random() * 20) + 1;
+                    const total = final1 + final2;
+                    
+                    dice1.textContent = final1;
+                    dice2.textContent = final2;
+                    
+                    let html = `<div class="total">${final1} + ${final2} = ${total}</div>`;
+                    
+                    if (final1 === 20 && final2 === 20) {
+                        html += `<div class="crit">🔥 KRITICKÝ ZÁSAH! 🔥</div>`;
+                        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    } else if (final1 === 1 && final2 === 1) {
+                        html += `<div class="fumble">💀 FUMBLE! 💀</div>`;
+                        if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 100]);
+                    } else if (total >= 35) {
+                        html += `<div class="crit">✨ Výborný hod!</div>`;
+                    } else if (total <= 5) {
+                        html += `<div class="fumble">😬 Smůla...</div>`;
+                    }
+                    
+                    result.innerHTML = html;
+                    
+                    btn.disabled = false;
+                    btn.textContent = '🎲 Hodit znovu!';
+                }
+            }, 80);
+        }
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
 </body>
 </html>
-
-
