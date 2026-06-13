@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DungeonVerse</title>
+    <title>Hra | DungeonVerse</title>
     <style>
         * {
             margin: 0;
@@ -14,36 +14,20 @@
         body {
             background: #0a0a0f;
             color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: -apple-system, sans-serif;
             padding: 20px;
         }
         
-        .navbar {
-            width: 100%;
-            padding: 15px;
-            text-align: center;
-            background: rgba(157, 78, 221, 0.1);
-            border-radius: 12px;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .logo span {
+        .back {
             color: #9d4edd;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
         }
         
         h1 {
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
         }
         
         .gradient {
@@ -52,220 +36,111 @@
             -webkit-text-fill-color: transparent;
         }
         
-        p {
+        .card {
+            background: #1a1a25;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .card h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .card p {
             color: #a0a0b0;
-            text-align: center;
-            margin-bottom: 30px;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
-        .dice-container {
-            display: flex;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .dice {
-            width: 80px;
-            height: 80px;
-            background: #1a1a25;
-            border: 2px solid #9d4edd;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            transition: transform 0.3s;
-        }
-        
-        .dice.rolling {
-            animation: shake 0.5s;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            75% { transform: rotate(10deg); }
-        }
-        
-        button {
-            width: 100%;
-            max-width: 300px;
-            padding: 18px;
-            font-size: 1.2rem;
-            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 20px 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        button:active {
-            transform: scale(0.95);
-        }
-        
-        #result {
-            margin-top: 20px;
-            font-size: 1.3rem;
-            color: #ffd700;
-            text-align: center;
-            min-height: 60px;
-        }
-        
-        .crit {
-            color: #ffd700;
-            font-size: 1.5rem;
-        }
-        
-        .fumble {
-            color: #e74c3c;
-            font-size: 1.5rem;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 30px;
-        }
-        
-        .stat {
-            background: #1a1a25;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            color: #a0a0b0;
-        }
-        
-        .chains {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .chain {
-            padding: 10px 20px;
-            background: #1a1a25;
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(157, 78, 221, 0.2);
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            margin: 5px 5px 0 0;
+            color: #9d4edd;
+        }
+        
+        .stats-table {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .stats-table td {
+            padding: 8px;
+            border-bottom: 1px solid #252535;
+        }
+        
+        .stats-table td:first-child {
+            color: #a0a0b0;
+        }
+        
+        .stats-table td:last-child {
+            text-align: right;
+            color: #ffd700;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">⚔️ <span>Dungeon</span>Verse</div>
-    </nav>
+    <a href="index.html" class="back">← Zpět</a>
     
-    <h1>Tahové <span class="gradient">MMORPG</span></h1>
-    <p>2×D20 kostky • Blockchain • True Ownership</p>
+    <h1>Herní <span class="gradient">Mechaniky</span></h1>
     
-    <div class="dice-container">
-        <div class="dice" id="dice1">?</div>
-        <div class="dice" id="dice2">?</div>
-    </div>
-    
-    <button onclick="rollDice()" id="rollBtn">🎲 Hodit kostky!</button>
-    
-    <div id="result"></div>
-    
-    <div class="stats">
-        <div class="stat">
-            <span class="stat-number">12.8K</span>
-            <span class="stat-label">Hráčů</span>
-        </div>
-        <div class="stat">
-            <span class="stat-number">45.2K</span>
-            <span class="stat-label">Dungeony</span>
-        </div>
-        <div class="stat">
-            <span class="stat-number">128K</span>
-            <span class="stat-label">NFT Itemů</span>
+    <div class="card">
+        <h3>🎲 Tahový D20 Systém</h3>
+        <p>Každý tah záleží. Hoď dvěma 20-stěnnými kostkami, přičti modifikátory a rozhodni o svém osudu.</p>
+        <div>
+            <span class="tag">2×D20</span>
+            <span class="tag">Initiative</span>
+            <span class="tag">Attack</span>
+            <span class="tag">Defense</span>
         </div>
     </div>
     
-    <div class="chains">
-        <div class="chain">🟣 Polygon</div>
-        <div class="chain">🔵 Arbitrum</div>
-        <div class="chain">🔷 Base</div>
+    <div class="card">
+        <h3>⚔️ Combat Flow</h3>
+        <table class="stats-table">
+            <tr>
+                <td>1. Initiative Roll</td>
+                <td>2×D20 + DEX</td>
+            </tr>
+            <tr>
+                <td>2. Player Turn</td>
+                <td>Move → Action</td>
+            </tr>
+            <tr>
+                <td>3. Attack Roll</td>
+                <td>≥ AC = Hit</td>
+            </tr>
+            <tr>
+                <td>4. Damage</td>
+                <td>Weapon + STR</td>
+            </tr>
+        </table>
     </div>
-
-    <script>
-        function rollDice() {
-            const dice1 = document.getElementById('dice1');
-            const dice2 = document.getElementById('dice2');
-            const result = document.getElementById('result');
-            const btn = document.getElementById('rollBtn');
-            
-            btn.disabled = true;
-            btn.textContent = '🎲 Házím...';
-            
-            // Animace
-            let rolls = 0;
-            const interval = setInterval(() => {
-                dice1.textContent = Math.floor(Math.random() * 20) + 1;
-                dice2.textContent = Math.floor(Math.random() * 20) + 1;
-                dice1.classList.add('rolling');
-                dice2.classList.add('rolling');
-                rolls++;
-                
-                if (rolls > 8) {
-                    clearInterval(interval);
-                    dice1.classList.remove('rolling');
-                    dice2.classList.remove('rolling');
-                    
-                    // Finální hod
-                    const final1 = Math.floor(Math.random() * 20) + 1;
-                    const final2 = Math.floor(Math.random() * 20) + 1;
-                    const total = final1 + final2;
-                    
-                    dice1.textContent = final1;
-                    dice2.textContent = final2;
-                    
-                    let message = `<strong>${final1} + ${final2} = ${total}</strong>`;
-                    let cssClass = '';
-                    
-                    if (final1 === 20 && final2 === 20) {
-                        message += "<br>🔥 KRITICKÝ ZÁSAH! 🔥";
-                        cssClass = 'crit';
-                        navigator.vibrate?.(200);
-                    } else if (final1 === 1 && final2 === 1) {
-                        message += "<br>💀 FUMBLE! 💀";
-                        cssClass = 'fumble';
-                        navigator.vibrate?.([100, 50, 100]);
-                    } else if (total >= 30) {
-                        message += "<br>✨ Skvělý hod!";
-                        cssClass = 'crit';
-                    }
-                    
-                    result.innerHTML = message;
-                    result.className = cssClass;
-                    
-                    btn.disabled = false;
-                    btn.textContent = '🎲 Hodit znovu!';
-                }
-            }, 100);
-        }
-        
-        // Dotyk pro mobil
-        document.body.addEventListener('touchstart', function(){}, {passive: true});
-    </script>
+    
+    <div class="card">
+        <h3>🏰 Procedurální Dungeony</h3>
+        <p>Každý dungeon je unikátní. BSP generace, náhodné místnosti, pasti a poklady.</p>
+        <div>
+            <span class="tag">4 Témata</span>
+            <span class="tag">Multi-floor</span>
+            <span class="tag">Boss fight</span>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h3>⛓️ Blockchain Integrace</h3>
+        <p>Tvoje itemy = tvoje NFT. Obchoduj na tržišti, vylepšuj, nebo prodej.</p>
+        <div>
+            <span class="tag">ERC-721</span>
+            <span class="tag">Cross-chain</span>
+            <span class="tag">$DNG Token</span>
+        </div>
+    </div>
 </body>
-</html>
+              </html>
+              
