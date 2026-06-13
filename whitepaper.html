@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Whitepaper | DungeonVerse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #9d4edd;
+        }
+
+        .back-btn {
+            color: #9d4edd;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .content {
+            padding: 80px 20px 40px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .gradient {
+            background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .toc {
+            background: #1a1a25;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+        }
+
+        .toc h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #252535;
+        }
+
+        .toc li:last-child {
+            border-bottom: none;
+        }
+
+        .toc a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc a::before {
+            content: "§";
+            color: #9d4edd;
+            font-weight: bold;
+        }
+
+        .section {
+            background: #1a1a25;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            scroll-margin-top: 80px;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            color: #9d4edd;
+            margin: 20px 0 10px;
+        }
+
+        .section p {
+            color: #a0a0b0;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .section p strong {
+            color: #fff;
+        }
+
+        .code-block {
+            background: #0a0a0f;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            border: 1px solid #252535;
+        }
+
+        .code-block .comment {
+            color: #606070;
+        }
+
+        .code-block .keyword {
+            color: #9d4edd;
+        }
+
+        .code-block .string {
+            color: #2ecc71;
+        }
+
+        .code-block .function {
+            color: #4cc9f0;
+        }
+
+        .tech-spec {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .tech-spec h4 {
+            color: #4cc9f0;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-spec table {
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .tech-spec td {
+            padding: 8px 0;
+            border-bottom: 1px solid #252535;
+        }
+
+        .tech-spec td:first-child {
+            color: #a0a0b0;
+            width: 40%;
+        }
+
+        .tech-spec td:last-child {
+            color: #fff;
+        }
+
+        .architecture-diagram {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .arch-layer {
+            background: #1a1a25;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 8px 0;
+            border: 2px solid;
+            font-size: 0.9rem;
+        }
+
+        .arch-layer.client {
+            border-color: #4cc9f0;
+        }
+
+        .arch-layer.server {
+            border-color: #9d4edd;
+        }
+
+        .arch-layer.blockchain {
+            border-color: #ffd700;
+        }
+
+        .arch-arrow {
+            color: #606070;
+            font-size: 1.5rem;
+            margin: 4px 0;
+        }
+
+        .arch-label {
+            font-size: 0.75rem;
+            color: #606070;
+            margin-top: 4px;
+        }
+
+        .formula-box {
+            background: #0a0a0f;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #252535;
+        }
+
+        .formula {
+            color: #ffd700;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .formula-desc {
+            color: #a0a0b0;
+            font-size: 0.85rem;
+        }
+
+        .risk-table {
+            width: 100%;
+            font-size: 0.9rem;
+            margin: 15px 0;
+        }
+
+        .risk-table th {
+            text-align: left;
+            padding: 10px;
+            background: #12121a;
+            color: #ffd700;
+            font-size: 0.85rem;
+        }
+
+        .risk-table td {
+            padding: 10px;
+            border-bottom: 1px solid #252535;
+            vertical-align: top;
+        }
+
+        .risk-table td:first-child {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .risk-high {
+            color: #e74c3c;
+        }
+
+        .risk-medium {
+            color: #ffd700;
+        }
+
+        .risk-low {
+            color: #2ecc71;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(157, 78, 221, 0.15);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #9d4edd;
+            margin: 4px 4px 0 0;
+        }
+
+        .reference-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reference-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #252535;
+            font-size: 0.9rem;
+            color: #a0a0b0;
+        }
+
+        .reference-list li:last-child {
+            border-bottom: none;
+        }
+
+        .reference-list a {
+            color: #4cc9f0;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #606070;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-btn">← Zpět</a>
+        <div class="logo">⚔️ <span>Dungeon</span>Verse</div>
+        <div style="width: 40px;"></div>
+    </nav>
+
+    <div class="content">
+        <h1>Technický <span class="gradient">Whitepaper</span></h1>
+        <p class="subtitle">Kompletní dokumentace architektury, smart kontraktů a herních systémů</p>
+
+        <div class="toc">
+            <h3>📑 Obsah</h3>
+            <ul>
+                <li><a href="#s1">1. Úvod a Problém</a></li>
+                <li><a href="#s2">2. Herní Architektura</a></li>
+                <li><a href="#s3">3. Blockchain Layer</a></li>
+                <li><a href="#s4">4. Smart Contracty</a></li>
+                <li><a href="#s5">5. D20 Combat Systém</a></li>
+                <li><a href="#s6">6. Procedurální Generace</a></li>
+                <li><a href="#s7">7. Tokenomics Matematika</a></li>
+                <li><a href="#s8">8. Bezpečnostní Model</a></li>
+                <li><a href="#s9">9. Rizika a Mitigace</a></li>
+                <li><a href="#s10">10. Reference</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="section" id="s1">
+            <h2>1. Úvod a Problém</h2>
+            <p><strong>Současný stav blockchain herního průmyslu:</strong> Většina her je buď plně on-chain (pomale, drahé) nebo jen s NFT skiny (bez herní hodnoty). Chybí skutečná integrace blockchainu do herní mechaniky.</p>
+            <p><strong>Proč tahový systém:</strong> Tahové hry mají přirozenou synchronizaci – všechny akce se odehrávají v diskrétních krocích. Ideální pro blockchain validaci bez lagů.</p>
+            <p><strong>Proč D20:</strong> Dvě 20-stěnné kostky dávají rozptyl 2–40 s normální distribucí. Modifikátory z vybavení (NFT) mají smysl – rozdíl mezi +2 a +5 je významný, ale ne game-breaking.</p>
+            <p><strong>Core Hypothesis:</strong> Hráči chtějí own své itemy, obchodovat s nimi a vidět prokazatelné RNG. Blockchain to umožňuje bez důvěry v server.</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="section" id="s2">
+            <h2>2. Herní Architektura</h2>
+
+            <div class="architecture-diagram">
+                <div class="arch-layer client">
+                    <strong>🎮 CLIENT LAYER</strong>
+                    <div class="arch-label">Unity WebGL + React UI</div>
+                    <div class="arch-label">MetaMask / Coinbase Wallet SDK</div>
+                </div>
+                <div class="arch-arrow">↓ WebSocket / HTTPS</div>
+                <div class="arch-layer server">
+                    <strong>⚡ SERVER LAYER</strong>
+                    <div class="arch-label">Node.js + Socket.io</div>
+                    <div class="arch-label">Combat Engine + Matchmaking</div>
+                    <div class="arch-label">Redis Cache + PostgreSQL</div>
+                </div>
+                <div class="arch-arrow">↓ Blockchain Bridge API</div>
+                <div class="arch-layer blockchain">
+                    <strong>⛓️ BLOCKCHAIN LAYER</strong>
+                    <div class="arch-label">Polygon (Tržiště) | Arbitrum L3 (Hra) | Base (Onboarding)</div>
+                </div>
+            </div>
+
+            <h3>2.1 Client Layer</h3>
+            <p><strong>Unity WebGL Build:</strong> 3D dungeon rendering, post-processing, particle efekty. WebGL umožňuje cross-platform bez instalace.</p>
+            <p><strong>React UI Overlay:</strong> Inventář, tržiště, wallet panel. React pro rychlý vývoj UI, snadná integrace Web3 knihoven.</p>
+            <p><strong>Wallet SDK:</strong> wagmi + viem pro Ethereum interakce. Podpora EIP-1193 (MetaMask), Coinbase Wallet SDK, WalletConnect.</p>
+
+            <h3>2.2 Server Layer</h3>
+            <p><strong>Node.js + Socket.io:</strong> Real-time WebSocket komunikace. Room-based architektura pro dungeon instance.</p>
+            <p><strong>Combat Engine:</strong> Deterministický resolver tahů. Vstup: všech 4 hráčů akce. Výstup: resolved state + loot drops.</p>
+            <p><strong>Redis:</strong> Session storage, matchmaking queue, rate limiting. Pub/sub pro cross-server komunikaci.</p>
+            <p><strong>PostgreSQL:</strong> Persistent data – hráčské profily, historie dungeonů, leaderboardy.</p>
+
+            <h3>2.3 Blockchain Bridge</h3>
+            <p>Serverová vrstva komunikuje s blockchainem přes:</p>
+            <p>• <strong>Read:</strong> Direct RPC calls (Alchemy/Infura) pro ziskání stavu itemů, balance.</p>
+            <p>• <strong>Write:</strong> Relayer pattern – server podepisuje transakce session key, paymaster platí gas.</p>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="section" id="s3">
+            <h2>3. Blockchain Layer</h2>
+
+            <h3>3.1 Proč Multi-Chain?</h3>
+            <p>Žádný jeden chain nevyhovuje všem potřebám. Trilemma: decentralizace, rychlost, cena.</p>
+
+            <div class="tech-spec">
+                <h4>Chain Comparison</h4>
+                <table>
+                    <tr><td>Polygon PoS</td><td>~2.3s finalita, $0.001 gas, zralý DeFi</td></tr>
+                    <tr><td>Arbitrum One</td><td>~0.25s soft finalita, $0.01 gas, EVM perf</td></tr>
+                    <tr><td>Arbitrum Orbit L3</td><td>Instant, ~$0.0001, vlastní gas token</td></tr>
+                    <tr><td>Base</td><td>~2s, Smart Wallet nativní, 106M uživatelů</td></tr>
+                </table>
+            </div>
+
+            <h3>3.2 Arbitrum Orbit L3 – Gaming Chain</h3>
+            <p>Dedicated Layer 3 běžící na Arbitrum One. Vlastní konfigurace pro hry:</p>
+            <p>• <strong>Block time:</strong> 250ms (4× rychlejší než L2)</p>
+            <p>• <strong>Gas token:</strong> $DNG (ne ETH, native herní ekonomika)</p>
+            <p>• <strong>Precompiles:</strong> Nativní D20 roll, loot generation, combat verify</p>
+            <p>• <strong>Data Availability:</strong> Celestia/Avail pro ultra-low costs (~90% úspora)</p>
+
+            <h3>3.3 Cross-Chain Messaging</h3>
+            <p><strong>LayerZero V2:</strong> Omnichain NFT (ONFT) a Fungible Token (OFT). Trustless bridge mezi všemi chainy.</p>
+            <p><strong>Axelar:</strong> Fallback pro komplexnější cross-chain calls (governance, treasury).</p>
+
+            <div class="code-block">
+<span class="comment">// ONFT bridge flow</span>
+<span class="keyword">function</span> <span class="function">bridgeItem</span>(
+    <span class="keyword">uint16</span> _dstChainId,
+    <span class="keyword">uint256</span> _tokenId,
+    <span class="keyword">address</span> _to
+) <span class="keyword">external</span> <span class="keyword">payable</span> {
+    <span class="comment">// Burn on source</span>
+    _burn(_tokenId);
+    
+    <span class="comment">// LZ send</span>
+    _lzSend(_dstChainId, 
+        <span class="function">abi.encode</span>(_to, _tokenId, itemData[_tokenId]),
+        <span class="keyword">msg.value</span>
+    );
+}</div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="section" id="s4">
+            <h2>4. Smart Contracty</h2>
+
+            <h3>4.1 ItemUpgrade.sol</h3>
+            <p>Vylepšování itemů s exponenciálním risem. Chainlink VRF pro fair RNG.</p>
+
+            <div class="code-block">
+<span class="comment">// Upgrade success chance</span>
+<span class="keyword">function</span> <span class="function">getSuccessChance</span>(<<span class="keyword">uint256</span> level) 
+    <span class="keyword">public</span> <span class="keyword">pure</span> <span class="keyword">returns</span> (<span class="keyword">uint256</span>) {
+    <span class="keyword">return</span> 90 - (level * 8); <span class="comment">// 90% → 10%</span>
+}
+
+<span class="keyword">function</span> <span class="function">upgradeCost</span>(<<span class="keyword">uint256</span> level) 
+    <span class="keyword">public</span> <span class="keyword">pure</span> <span class="keyword">returns</span> (<span class="keyword">uint256</span>) {
+    <span class="keyword">return</span> 0.01 <span class="keyword">ether</span> * (2 ** level); <span class="comment">// 0.01 → 5.12 ETH</span>
+}</div>
+
+            <p><strong>Fail mechanic:</strong> Při neúspěchu item downgrade o 1 level nebo destruction (dle rarity). Vytváří risk/reward tension.</p>
+
+            <h3>4.2 ProgressNFT.sol (Soulbound)</h3>
+            <p>Non-transferable achievementy. ERC-721 s override _beforeTokenTransfer.</p>
+
+            <div class="code-block">
+<span class="keyword">function</span> <span class="function">_beforeTokenTransfer</span>(
+    <span class="keyword">address</span> from,
+    <span class="keyword">address</span> to,
+    <span class="keyword">uint256</span> tokenId
+) <span class="keyword">internal</span> <span class="keyword">override</span> {
+    <span class="function">require</span>(
+        from == <span class="keyword">address</span>(0) || to == <span class="keyword">address</span>(0),
+        <span class="string">"Soulbound: non-transferable"</span>
+    );
+    <span class="keyword">super</span>._beforeTokenTransfer(from, to, tokenId);
+}</div>
+
+            <h3>4.3 GamePaymaster.sol (ERC-4337)</h3>
+            <p>Account Abstraction paymaster. Hráč neplatí gas, platí se v $DNG nebo je sponsored.</p>
+
+            <div class="code-block">
+<span class="keyword">enum</span> PayMode { FREE, DNG, SPONSORED }
+
+<span class="keyword">function</span> <span class="function">_validatePaymasterUserOp</span>(
+    UserOperation calldata userOp,
+    <span class="keyword">uint256</span> maxCost
+) <span class="keyword">internal</span> <span class="keyword">view</span> <span class="keyword">returns</span> (<span class="keyword">bytes</span> <span class="keyword">memory</span> context) {
+    <span class="keyword">address</span> player = userOp.sender;
+    PayMode mode = playerPayMode[player];
+    
+    <span class="keyword">if</span> (mode == PayMode.FREE) {
+        <span class="function">require</span>(freeActions[player] > 0, <span class="string">"No free actions"</span>);
+    } <span class="keyword">else if</span> (mode == PayMode.DNG) {
+        <span class="keyword">uint256</span> dngCost = maxCost * dngPerGasUnit;
+        <span class="function">require</span>(dngToken.balanceOf(player) >= dngCost);
+    }
+    <span class="keyword">return</span> <span class="function">abi.encode</span>(player, mode);
+}</div>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="section" id="s5">
+            <h2>5. D20 Combat Systém</h2>
+
+            <h3>5.1 Matematika Hodu</h3>
+            <p>Dvě nezávislé uniformní proměnné X, Y ~ U[1,20]. Součet S = X + Y.</p>
+
+            <div class="formula-box">
+                <div class="formula">E[S] = E[X] + E[Y] = 10.5 + 10.5 = 21</div>
+                <div class="formula-desc">Střední hodnota součtu dvou D20</div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula">Var(S) = Var(X) + Var(Y) = 33.25 + 33.25 = 66.5</div>
+                <div class="formula-desc">Rozptyl (σ ≈ 8.15)</div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula">P(S = k) = (20 - |k - 21|) / 400, pro k ∈ [2, 40]</div>
+                <div class="formula-desc">Trojúhelníková distribuce (discrete convolution)</div>
+            </div>
+
+            <h3>5.2 Critical Hit & Fumble</h3>
+            <p><strong>P(Crit) = P(X=20 ∩ Y=20) = 1/400 = 0.25%</strong></p>
+            <p><strong>P(Fumble) = P(X=1 ∩ Y=1) = 1/400 = 0.25%</strong></p>
+            <p>Extrémně vzácné, ale významné. Vytváří "watercooler moments" – hráči budou vyprávět o svém critu.</p>
+
+            <h3>5.3 Attack Resolution</h3>
+
+            <div class="formula-box">
+                <div class="formula">Attack Roll = S + MOD_attacker ≥ AC_target</div>
+                <div class="formula-desc">MOD = STR/DEX/INT bonus, AC = Armor Class</div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula">Damage = (Weapon_Base + MOD + d8) × Crit_Multiplier</div>
+                <div class="formula-desc">Crit = 2×, Fumble = 0.5× self-damage</div>
+            </div>
+
+            <h3>5.4 Initiative System</h3>
+            <p>Initiative = D20_roll + DEX_modifier. Determinuje pořadí tahů v celém comb
